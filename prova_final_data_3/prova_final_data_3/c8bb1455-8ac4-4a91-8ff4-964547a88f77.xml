@@ -1,0 +1,1 @@
+<annotation><folder>pugno</folder><filename>c8bb1455-8ac4-4a91-8ff4-964547a88f77.jpg</filename><size><width>256</width><height>144</height><depth>3</depth></size><object><name>Pugno</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>145.5</xmin><ymin>0.6</ymin><xmax>192.0</xmax><ymax>41.699999999999996</ymax></bndbox></object></annotation>

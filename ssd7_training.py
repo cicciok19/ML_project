@@ -153,14 +153,14 @@ val_dataset = BatchGenerator(box_output_format=['class_id', 'xmin', 'ymin', 'xma
 # TODO: Set the paths to your datasets here.
 
 # Training dataset
-train_images_dir      = '../../prova_final_data_3/prova_final_data_3'
-train_labels_filename = '../../labels.csv'
+train_images_dir      = 'prova_final_data_3\prova_final_data_3'
+train_labels_filename = 'labels.csv'
 
 # Validation dataset
 val_images_dir      = ''
 val_labels_filename = ''
 
-train_dataset.parse_csv(images_dir=train_images_dir,
+train_info = train_dataset.parse_csv(images_dir=train_images_dir,
                         labels_filename=train_labels_filename,
                         input_format=['image_name', 'xmin', 'xmax', 'ymin', 'ymax', 'class_id'], # This is the order of the first six columns in the CSV file that contains the labels for your dataset. If your labels are in XML format, maybe the XML parser will be helpful, check the documentation.
                         include_classes='all')
@@ -201,7 +201,7 @@ ssd_box_encoder = SSDBoxEncoder(img_height=img_height,
 
 # 4: Set the batch size.
 
-batch_size = 64 # Change the batch size if you like, or if you run into memory issues with your GPU.
+batch_size = 32 # Change the batch size if you like, or if you run into memory issues with your GPU.
 
 # 5: Set the image processing / data augmentation options and create generator handles.
 
@@ -224,6 +224,11 @@ train_generator = train_dataset.generate(batch_size=batch_size,
                                          limit_boxes=True,
                                          include_thresh=0.4)
 
+for x in train_generator :
+	print(f"immagine : {x[0].shape},  etichetta: {x[1].shape}")
+
+
+'''
 val_generator = val_dataset.generate(batch_size=batch_size,
                                      shuffle=True,
                                      train=True,
@@ -241,10 +246,10 @@ val_generator = val_dataset.generate(batch_size=batch_size,
                                      gray=False,
                                      limit_boxes=True,
                                      include_thresh=0.4)
-
+'''
 # Get the number of samples in the training and validations datasets to compute the epoch lengths below.
 n_train_samples = train_dataset.get_n_samples()
-n_val_samples = val_dataset.get_n_samples()
+#n_val_samples = val_dataset.get_n_samples()
 
 
 # ## 4. Run the training
@@ -259,24 +264,10 @@ n_val_samples = val_dataset.get_n_samples()
 # TODO: Set the number of epochs to train for.
 epochs = 20
 
-history = model.fit_generator(generator = train_generator,
-                              steps_per_epoch = ceil(n_train_samples/batch_size),
-                              epochs = epochs,
-                              callbacks = [ModelCheckpoint('ssd7_weights_epoch-{epoch:02d}_loss-{loss:.4f}.h5',
-                                                           monitor='val_loss',
-                                                           verbose=1,
-                                                           save_best_only=True,
-                                                           save_weights_only=True,
-                                                           mode='auto',
-                                                           period=1),
-                                           EarlyStopping(monitor='val_loss',
-                                                         min_delta=0.001,
-                                                         patience=2),
-                                           ReduceLROnPlateau(monitor='val_loss',
-                                                             factor=0.5,
-                                                             patience=0,
-                                                             epsilon=0.001,
-                                                             cooldown=0)])
+history = model.fit(train_generator,
+                  	steps_per_epoch = ceil(n_train_samples/batch_size),
+                  	epochs = 20
+                  	)
 
 # TODO: Set the filename (without the .h5 file extension!) under which to save the model and weights.
 #       Do the same in the `ModelCheckpoint` callback above.

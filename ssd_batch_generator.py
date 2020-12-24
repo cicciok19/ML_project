@@ -252,7 +252,7 @@ class BatchGenerator:
                   input_format,
                   include_classes='all',
                   random_sample=False,
-                  ret=False):
+                  ret=True):
         '''
         Arguments:
             images_dir (str): The path to the directory that contains the images.
@@ -326,6 +326,7 @@ class BatchGenerator:
 
             if box[0] == current_file: # If this box (i.e. this line of the CSV file) belongs to the current image file
                 current_labels.append(box[1:])
+                print(current_labels)
                 if i == len(data)-1: # If this is the last line of the CSV file
                     if random_sample: # In case we're not using the full dataset, but a random sample of it.
                         p = np.random.uniform(0,1)
@@ -1222,6 +1223,7 @@ class BatchGenerator:
             if 'original_images' in returns: ret.append(batch_original_images)
             if 'original_labels' in returns and not batch_y is None: ret.append(batch_original_labels)
 
+            print(ret[0].shape)
             yield ret
 
     def get_filenames_labels(self):
