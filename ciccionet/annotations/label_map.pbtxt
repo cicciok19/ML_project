@@ -1,0 +1,8 @@
+item { 
+	name:'Pugno'
+	id:1
+}
+item { 
+	name:'Mano_aperta'
+	id:2
+}
