@@ -22,8 +22,8 @@ pipeline_config.train_input_reader.label_map_path= 'annotations/label_map.pbtxt'
 pipeline_config.train_input_reader.tf_record_input_reader.input_path[:] = ['annotations/train.record']
 pipeline_config.eval_input_reader[0].label_map_path = 'annotations/label_map.pbtxt'
 pipeline_config.eval_input_reader[0].tf_record_input_reader.input_path[:] = ['annotations/test.record']
-pipeline_config.train_config.optimizer.momentum_optimizer.learning_rate = 0.04
-pipeline_config.train_config.optimizer.momentum_optimizer.learning_rate = 0.00726666
+pipeline_config.train_config.optimizer.momentum_optimizer.learning_rate.cosine_decay_learning_rate.learning_rate_base = 0.04
+pipeline_config.train_config.optimizer.momentum_optimizer.learning_rate.cosine_decay_learning_rate.warmup_learning_rate = 0.00726666
 
 config_text = text_format.MessageToString(pipeline_config)                                                                                                                                                                                                        
 with tf.io.gfile.GFile(CONFIG_PATH, "wb") as f:                                                                                                                                                                                                                     
