@@ -16,16 +16,18 @@ batch_size = 32
 
 pipeline_config.model.ssd.num_classes = 2
 pipeline_config.train_config.batch_size = batch_size
-pipeline_config.train_config.fine_tune_checkpoint = '../ssd_mobilenet/ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8/checkpoint/ckpt-0'
+pipeline_config.train_config.fine_tune_checkpoint = 'ssd_mobilenet/ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8/checkpoint/ckpt-0'
 pipeline_config.train_config.fine_tune_checkpoint_type = "detection"
-pipeline_config.train_input_reader.label_map_path= '../annotations/label_map.pbtxt'
-pipeline_config.train_input_reader.tf_record_input_reader.input_path[:] = ['../annotations/train.record']
-pipeline_config.eval_input_reader[0].label_map_path = '../annotations/label_map.pbtxt'
-pipeline_config.eval_input_reader[0].tf_record_input_reader.input_path[:] = ['../annotations/test.record']
+pipeline_config.train_input_reader.label_map_path= 'annotations/label_map.pbtxt'
+pipeline_config.train_input_reader.tf_record_input_reader.input_path[:] = ['annotations/train.record']
+pipeline_config.eval_input_reader[0].label_map_path = 'annotations/label_map.pbtxt'
+pipeline_config.eval_input_reader[0].tf_record_input_reader.input_path[:] = ['annotations/test.record']
+pipeline_config.train_config.optimizer.momentum_optimizer.learning_rate = 0.04
+pipeline_config.train_config.optimizer.momentum_optimizer.learning_rate = 0.00726666
 
 config_text = text_format.MessageToString(pipeline_config)                                                                                                                                                                                                        
 with tf.io.gfile.GFile(CONFIG_PATH, "wb") as f:                                                                                                                                                                                                                     
     f.write(config_text)
 
-print(f'Generated config with batch_size {batch_size}')
+print(f'Generated config with batch_size {batch_size}, learning rate 0.04 and warm_up lr 0.00726666')
 
