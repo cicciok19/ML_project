@@ -12,9 +12,9 @@ with tf.io.gfile.GFile(CONFIG_PATH, "r") as f:
     proto_str = f.read()                                                                                                                                                                                                                                          
     text_format.Merge(proto_str, pipeline_config)
 
-batch_size = 32
+batch_size = 4
 
-pipeline_config.model.ssd.num_classes = 2
+pipeline_config.model.ssd.num_classes = 5
 pipeline_config.train_config.batch_size = batch_size
 pipeline_config.train_config.fine_tune_checkpoint = 'ssd_mobilenet/ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8/checkpoint/ckpt-0'
 pipeline_config.train_config.fine_tune_checkpoint_type = "detection"
