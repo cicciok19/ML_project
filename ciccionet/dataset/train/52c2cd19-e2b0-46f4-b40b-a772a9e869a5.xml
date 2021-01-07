@@ -1,1 +1,0 @@
-<annotation><folder>manoaperta</folder><filename>52c2cd19-e2b0-46f4-b40b-a772a9e869a5.jpg</filename><size><width>256</width><height>144</height><depth>3</depth></size><object><name>Mano_aperta</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>5.1</xmin><ymin>32.1</ymin><xmax>74.7</xmax><ymax>103.8</ymax></bndbox></object></annotation>
